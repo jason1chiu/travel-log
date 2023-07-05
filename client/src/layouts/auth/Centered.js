@@ -1,7 +1,7 @@
 // Chakra imports
 import { Box, Flex, Text } from "@chakra-ui/react";
 // Custom components
-import Card from "components/card/card";
+import Card from "components/card/Card";
 import FixedPlugin from "components/fixedPlugin/FixedPlugin";
 import PropTypes from "prop-types";
 import React from "react";

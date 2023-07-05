@@ -1,5 +1,7 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import React from "react";
+import { useMutation } from "@apollo/client";
+import { ADD_USER } from "utils/mutations";
 
 // Chakra imports
 import {
@@ -18,6 +20,7 @@ import {
   SimpleGrid,
   Text,
   useColorModeValue,
+  useToast,
 } from "@chakra-ui/react";
 
 // Custom components
@@ -29,7 +32,7 @@ import { FcGoogle } from "react-icons/fc";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { RiEyeCloseLine } from "react-icons/ri";
 
-function SignUp() {
+export default function SignUp() {
   // Chakra color mode
   const textColor = useColorModeValue("navy.700", "white");
   const textColorSecondary = "gray.400";
@@ -48,6 +51,59 @@ function SignUp() {
   );
   const [show, setShow] = React.useState(false);
   const handleClick = () => setShow(!show);
+
+  // Define state variables for form inputs
+  const [firstName, setFirstName] = React.useState('');
+  const [lastName, setLastName] = React.useState('');
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+
+  // Define the mutation
+  const [addUser, { data }] = useMutation(ADD_USER);
+
+  // Define toast for notifications
+  const toast = useToast();
+
+  // Get the history object
+  const history = useHistory();
+
+  // Define a function to handle form submission
+  const handleSignUp = async (event) => {
+    event.preventDefault();
+
+    try {
+      const { data } = await addUser({
+        variables: {
+          firstName: firstName,
+          lastName:  lastName,
+          email: email,
+          password: password,
+        },
+      });
+
+      toast({
+        title: "Account created!",
+        description: "We've created your account.",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      });
+
+      // Redirect to the Overview page
+      history.push('/admin/overview');
+    } catch (error) {
+      console.log(error);
+
+      toast({
+        title: "An error occurred.",
+        description: "Unable to create account.",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+    }
+  };
+
   return (
     <AuthCentered
       image={"linear-gradient(135deg, #868CFF 0%, #4318FF 100%)"}
@@ -131,6 +187,8 @@ function SignUp() {
                   variant='auth'
                   mb='24px'
                   size='lg'
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
                 />
               </Flex>
               <Flex direction='column'>
@@ -150,6 +208,8 @@ function SignUp() {
                   placeholder='Last name'
                   mb='24px'
                   size='lg'
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
                 />
               </Flex>
             </SimpleGrid>
@@ -170,6 +230,8 @@ function SignUp() {
               placeholder='mail@simmmple.com'
               mb='24px'
               size='lg'
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <FormLabel
               ms='4px'
@@ -190,6 +252,8 @@ function SignUp() {
                 mb='24px'
                 size='lg'
                 type={show ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
               <InputRightElement display='flex' alignItems='center' mt='4px'>
                 <Icon
@@ -235,7 +299,8 @@ function SignUp() {
               fontWeight='500'
               w='100%'
               h='50'
-              mb='24px'>
+              mb='24px'
+              onClick={handleSignUp}>
               Create my account
             </Button>
           </FormControl>
@@ -262,6 +327,4 @@ function SignUp() {
       </Flex>
     </AuthCentered>
   );
-}
-
-export default SignUp;
+};
