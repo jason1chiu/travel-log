@@ -22,34 +22,12 @@ function SidebarContent(props) {
     });
   }, []);
 
-  // Add this function somewhere in your component, or import it from elsewhere
-  const handleDownload = () => {
-    if (!installEvent) {
-      return;
-    }
-    // Show the prompt
-    installEvent.prompt();
-    // Wait for the user to respond to the prompt
-    installEvent.userChoice.then((choiceResult) => {
-      if (choiceResult.outcome === 'accepted') {
-        console.log('User accepted the A2HS prompt');
-      } else {
-        console.log('User dismissed the A2HS prompt');
-      }
-      setInstallEvent(null);
-    });
-  };
-
   return (
     <Flex direction='column' height='100%' pt='25px' borderRadius='30px'>
       <Brand />
       <Stack direction='column' mb='auto' mt='8px'>
         <Box ps='20px' pe={{ md: "16px", "2xl": "1px" }}>
           <Links routes={routes} />
-          {/* Add the download button here */}
-          <Button leftIcon={<IoCloudDownloadOutline />} onClick={handleDownload} m={4}>
-            Download
-          </Button>
         </Box>
       </Stack>
       <Box

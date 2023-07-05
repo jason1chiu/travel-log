@@ -6,25 +6,17 @@ import {
   MdMenuBook
 } from "react-icons/md";
 
-import Journals from "views/admin/journals";
-import Dashboard from "views/admin/dashboard";
+import Overview from "views/admin/overview";
 import SignIn from "views/auth/signIn/SignInCentered";
 import SignUp from "views/auth/signUp/SignUpCentered";
 
 const routes = [
   {
-    name: "Dashboard",
+    name: "Overview",
     layout: "/admin",
-    path: "/dashboard",
+    path: "/overview",
     icon: <Icon as={MdHome} width='20px' height='20px' color='inherit' />,
-    component: Dashboard,
-  },
-  {
-    name: "Journals",
-    layout: "/admin",
-    path: "/journals",
-    icon: <Icon as={MdMenuBook} width='20px' height='20px' color='inherit' />,
-    component: Journals,
+    component: Overview,
   },
   {
     name: "Sign In",
