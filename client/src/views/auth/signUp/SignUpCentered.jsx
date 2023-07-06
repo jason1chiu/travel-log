@@ -2,6 +2,7 @@ import { NavLink, useHistory } from "react-router-dom";
 import React from "react";
 import { useMutation } from "@apollo/client";
 import { ADD_USER } from "utils/mutations";
+import Auth from 'utils/auth';
 
 // Chakra imports
 import {
@@ -88,6 +89,9 @@ export default function SignUp() {
         duration: 9000,
         isClosable: true,
       });
+
+      // Sotre the token in local storage
+      Auth.login(data.addUser.token);
 
       // Redirect to the Overview page
       history.push('/admin/overview');

@@ -1,5 +1,9 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
+import { LOGIN_USER } from "utils/mutations";
+import { useMutation } from "@apollo/client";
+import Auth from "utils/auth";
+
 // Chakra imports
 import {
   Box,
@@ -15,7 +19,9 @@ import {
   InputRightElement,
   useColorModeValue,
   Text,
+  useToast,
 } from "@chakra-ui/react";
+
 // Assets
 import { FcGoogle } from "react-icons/fc";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
@@ -25,7 +31,7 @@ import { RiEyeCloseLine } from "react-icons/ri";
 import { HSeparator } from "components/separator/Separator";
 import AuthCentered from "layouts/auth/Centered";
 
-function SignIn() {
+export default function SignIn() {
   // Chakra color mode
   const textColor = useColorModeValue("navy.700", "white");
   const textColorSecondary = "gray.400";
@@ -45,6 +51,52 @@ function SignIn() {
 
   const [show, setShow] = React.useState(false);
   const handleClick = () => setShow(!show);
+
+  const [loginUser, { data, loading, error }] = useMutation(LOGIN_USER);
+
+  const toast = useToast();
+
+  const history = useHistory();
+
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+
+  const handleSignIn = async (event) => {
+    event.preventDefault();
+
+    try {
+      const { data } = await loginUser({
+        variables: {
+          email: email,
+          password: password,
+        },
+      });
+
+      toast({
+        title: "Account approved!",
+        description: "You've signed into your account.",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      });
+
+      // Store the token in local storage
+      Auth.login(data.login.token);
+
+      history.push('/admin/overview');
+    } catch (error) {
+      console.error('Error signing in', error);
+
+      toast({
+        title: "An error occurred.",
+        description: "Incorrect creditials.",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+    }
+  };
+
   return (
     <AuthCentered
       image={"linear-gradient(135deg, #868CFF 0%, #4318FF 100%)"}
@@ -125,6 +177,8 @@ function SignIn() {
               mb='24px'
               fontWeight='500'
               size='lg'
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <FormLabel
               ms='4px'
@@ -145,6 +199,8 @@ function SignIn() {
                 size='lg'
                 type={show ? "text" : "password"}
                 variant='auth'
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
               <InputRightElement display='flex' alignItems='center' mt='4px'>
                 <Icon
@@ -187,7 +243,9 @@ function SignIn() {
               fontWeight='500'
               w='100%'
               h='50'
-              mb='24px'>
+              mb='24px'
+              onClick={handleSignIn}
+            >
               Sign In
             </Button>
           </FormControl>
@@ -215,5 +273,3 @@ function SignIn() {
     </AuthCentered>
   );
 }
-
-export default SignIn;
