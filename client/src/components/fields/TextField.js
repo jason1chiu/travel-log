@@ -2,7 +2,7 @@
 import {
   Flex,
   FormLabel,
-  Input,
+  Textarea,
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
@@ -10,10 +10,14 @@ import {
 import React from "react";
 
 export default function Default(props) {
-  const { id, label, extra, placeholder, type, mb, ...rest } = props;
+  const { mb, id, label, extra, placeholder, ...rest } = props;
   // Chakra Color Mode
   const textColorPrimary = useColorModeValue("secondaryGray.900", "white");
-
+  const bgPrimary = useColorModeValue("transparent", "navy.800");
+  const borderPrimary = useColorModeValue(
+    "secondaryGray.100",
+    "whiteAlpha.100"
+  );
   return (
     <Flex direction='column' mb={mb ? mb : "30px"}>
       <FormLabel
@@ -25,20 +29,23 @@ export default function Default(props) {
         fontWeight='bold'
         _hover={{ cursor: "pointer" }}>
         {label}
-        <Text fontSize='sm' fontWeight='400' ms='2px'>
+        <Text fontSize='sm' fontWeight='normal' ms='2px'>
           {extra}
         </Text>
       </FormLabel>
-      <Input
-        {...rest}
-        type={type}
+      <Textarea
         id={id}
-        fontWeight='500'
-        variant='main'
         placeholder={placeholder}
-        _placeholder={{ fontWeight: "400", color: "secondaryGray.600" }}
         h='44px'
         maxh='44px'
+        color={textColorPrimary}
+        fontSize='sm'
+        bg={bgPrimary}
+        border='1px solid '
+        borderColor={borderPrimary}
+        borderRadius='16px'
+        {...rest}
+        _placeholder={{ color: "secondaryGray.500" }}
       />
     </Flex>
   );
