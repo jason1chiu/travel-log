@@ -1,8 +1,13 @@
 // use this to decode a token and get the user's information out of it
 import decode from 'jwt-decode';
+import { ApolloClient } from '@apollo/client';
 
 // create a new class to instantiate for a user
 class AuthService {
+  constructor(client) {
+    this.client = client;
+  }
+
   // get user data
   getProfile() {
     return decode(this.getToken());
@@ -41,6 +46,7 @@ class AuthService {
   logout() {
     // Clear user token and profile data from localStorage
     localStorage.removeItem('id_token');
+
     // this will reload the page and reset the state of the application
     window.location.assign('/');
   }

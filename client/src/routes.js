@@ -2,13 +2,13 @@ import React from "react";
 import { Icon } from "@chakra-ui/react";
 import {
   MdHome,
-  MdLock,
-  MdMenuBook
+  MdSettings,
 } from "react-icons/md";
 
 import Overview from "views/admin/overview";
 import SignIn from "views/auth/signIn/SignInCentered";
 import SignUp from "views/auth/signUp/SignUpCentered";
+import Settings from "views/admin/settings";
 
 const routes = [
   {
@@ -22,16 +22,21 @@ const routes = [
     name: "Sign In",
     layout: "/auth",
     path: "/sign-in",
-    icon: <Icon as={MdLock} width='20px' height='20px' color='inherit' />,
     component: SignIn,
   },
   {
     name: "Sign Up",
     layout: "/auth",
     path: "/sign-up",
-    icon: <Icon as={MdLock} width='20px' height='20px' color='inherit' />,
     component: SignUp,
   },
+  {
+    name: "Settings",
+    layout: "/admin",
+    path: "/settings",
+    icon: <Icon as={MdSettings} width='20px' height='20px' color='inherit' />,
+    component: Settings,
+  }
 ];
 
 const sidebarRoutes = routes.filter(route => route.name !== "Sign In" && route.name !== "Sign Up");

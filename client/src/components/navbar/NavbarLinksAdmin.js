@@ -1,3 +1,6 @@
+import { GET_ME } from "utils/queries";
+import { useQuery } from "@apollo/client";
+
 // Chakra Imports
 import {
   Avatar,
@@ -47,6 +50,14 @@ export default function HeaderLinks(props) {
     "14px 17px 40px 4px rgba(112, 144, 176, 0.06)"
   );
   const borderButton = useColorModeValue("secondaryGray.500", "whiteAlpha.200");
+
+  const { data, loading, error } = useQuery(GET_ME);
+
+  if (loading) return <p>Loading ...</p>;
+  if (error) return <p>Error</p>;
+
+  const name = `${data.me.firstName} ${data.me.lastName}`;
+
   return (
     <Flex
       w={{ sm: "100%", md: "auto" }}
@@ -231,7 +242,7 @@ export default function HeaderLinks(props) {
           <Avatar
             _hover={{ cursor: "pointer" }}
             color='white'
-            name='Adela Parkson'
+            name={name}
             bg='#11047A'
             size='sm'
             w='40px'
@@ -256,7 +267,7 @@ export default function HeaderLinks(props) {
               fontSize='sm'
               fontWeight='700'
               color={textColor}>
-              👋&nbsp; Hey, Adela
+              👋&nbsp; Hey, {name}
             </Text>
           </Flex>
           <Flex flexDirection='column' p='10px'>
