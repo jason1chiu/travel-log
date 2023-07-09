@@ -6,35 +6,41 @@ export const LOGIN_USER = gql`
       token
       user {
         _id
+        username
         firstName
         lastName
         email
+        location
       }
     }
   }
 `;
 
 export const ADD_USER = gql`
-  mutation addUser($firstName: String!, $lastName: String!, $email: String!, $password: String!) {
-    addUser(firstName: $firstName, lastName: $lastName, email: $email, password: $password) {
+  mutation addUser($username: String!, $firstName: String!, $lastName: String!, $email: String!, $password: String!, $location: String!) {
+    addUser(username: $username, firstName: $firstName, lastName: $lastName, email: $email, password: $password, location: $location) {
       token
       user {
         _id
+        username
         firstName
         lastName
         email
+        location
       }
     }
   }
 `;
 
-export const UPDATE_USER = gql`
-  mutation updateUser($first: String!, $last: String!) {
-    updateUser(first: $first, last: $last) {
+export const UPDATE_USER_INFO = gql`
+  mutation UpdateUserInfo($username: String, $firstName: String, $lastName: String, $email: String, $location: String) {
+    updateUserInfo(username: $username, firstName: $firstName, lastName: $lastName, email: $email, location: $location) {
       _id
+      username
       firstName
       lastName
       email
+      location
     }
   }
 `;

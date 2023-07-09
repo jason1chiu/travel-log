@@ -17,11 +17,25 @@ const resolvers = {
   },
 
   Mutation: {
-    addUser: async (parent, { firstName, lastName, email, password }) => {
-      const user = await User.create({ firstName, lastName, email, password });
+    addUser: async (parent, { username, firstName, lastName, email, password, location }) => {
+      const user = await User.create({ username, firstName, lastName, email, password, location });
       const token = signToken(user);
       return { token, user };
     },
+
+    updateUserInfo: async (parent, { username, firstName, lastName, email, location }, context) => {
+      if (context.user) {
+        const updatedUser = await User.findOneAndUpdate(
+          { _id: context.user._id },
+          { username, firstName, lastName, email, location },
+          { new: true }
+        );
+        
+        return { user: updatedUser };
+      }
+      
+      throw new AuthenticationError('Not logged in');
+    },    
 
     login: async (parent, { email, password }) => {
       const user = await User.findOne({ email });

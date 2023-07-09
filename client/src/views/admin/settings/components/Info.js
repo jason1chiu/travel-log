@@ -1,3 +1,10 @@
+import { GET_ME } from "utils/queries";
+import { useQuery } from "@apollo/client";
+import { useState, useEffect } from "react";
+import { useMutation } from "@apollo/client";
+import { UPDATE_USER_INFO } from "utils/mutations";
+import { useHistory } from "react-router-dom";
+
 // Chakra imports
 import {
   Button,
@@ -6,15 +13,80 @@ import {
   SimpleGrid,
   Text,
   useColorModeValue,
+  useToast,
 } from "@chakra-ui/react";
 import Card from "components/card/Card.js";
 import InputField from "components/fields/InputField";
-import TextField from "components/fields/TextField";
 import React from "react";
+
 export default function Settings() {
   // Chakra Color Mode
   const textColorPrimary = useColorModeValue("secondaryGray.900", "white");
   const textColorSecondary = "secondaryGray.600";
+
+  const toast = useToast();
+
+  const history = useHistory();
+
+  const { data, loading, error, refetch } = useQuery(GET_ME);
+  const [updateUser] = useMutation(UPDATE_USER_INFO, {
+    onCompleted: () => {
+      refetch();
+    }
+  });  
+
+  const [formState, setFormState] = useState({
+    username: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+    location: '',
+  });
+
+  useEffect(() => {
+    if (data) {
+      const username = `${data.me.username}`;
+      const firstName = `${data.me.firstName}`;
+      const lastName = `${data.me.lastName}`;
+      const email = `${data.me.email}`
+      const location = `${data.me.location}`
+
+      setFormState({ username, firstName, lastName, email, location });
+    }
+  }, [data])
+
+  if (loading) return <p>Loading ...</p>;
+  if (error) return <p>Error</p>;
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const { data } = await updateUser({
+        variables: { ...formState }
+      });
+      // handle successful update
+      toast({
+        title: "Profile Updated!",
+        description: "You've successfully updated your account!",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      });
+
+      history.push('/admin/overview');
+    } catch (err) {
+      console.error(err);
+      // handle errors
+      toast({
+        title: "Error updating profile!",
+        description: "Profile unsuccessfully updated!",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      });
+    }
+  };
+
   return (
     <FormControl>
       <Card>
@@ -34,41 +106,47 @@ export default function Settings() {
             me='30px'
             id='username'
             label='Username'
-            placeholder='@john123'
+            placeholder={formState.username}
+            onChange={(e) => setFormState({ ...formState, username: e.target.value })}
           />
           <InputField
             mb='25px'
             id='email'
             label='Email Address'
-            placeholder='mail@simmmple.com'
+            placeholder={formState.email}
+            onChange={(e) => setFormState({ ...formState, email: e.target.value })}
           />
           <InputField
             mb='25px'
             me='30px'
             id='first_name'
             label='First Name'
-            placeholder='John'
+            placeholder={formState.firstName}
+            onChange={(e) => setFormState({ ...formState, firstName: e.target.value })}
           />
           <InputField
             mb='25px'
             id='last_name'
             label='Last Name'
-            placeholder='Doe'
+            placeholder={formState.lastName}
+            onChange={(e) => setFormState({ ...formState, lastName: e.target.value })}
+          />
+          <InputField
+            mb='25px'
+            me='30px'
+            id='location'
+            label='Location'
+            placeholder={formState.location}
+            onChange={(e) => setFormState({ ...formState, location: e.target.value })}
           />
         </SimpleGrid>
-        <InputField id='job' label='Job' placeholder='Web Developer' />
-        <TextField
-          id='about'
-          label='About Me'
-          h='100px'
-          placeholder='Tell something about yourself in 150 characters!'
-        />
         <Button
           variant='brand'
           minW='183px'
           fontSize='sm'
           fontWeight='500'
-          ms='auto'>
+          ms='auto'
+          onClick={handleSubmit}>
           Save changes
         </Button>
       </Card>

@@ -1,8 +1,5 @@
-import { GET_ME } from "utils/queries";
-import { useQuery } from "@apollo/client";
-
 // Chakra imports
-import { Box, Flex, SimpleGrid } from "@chakra-ui/react";
+import { Box, SimpleGrid } from "@chakra-ui/react";
 // Assets
 import banner from "assets/img/auth/banner.png";
 import profile from "assets/img/crm/vbz.png";
@@ -15,29 +12,17 @@ import Socials from "views/admin/settings/components/Socials";
 
 export default function Settings() {
 
-  const { data, loading, error } = useQuery(GET_ME);
-
-  if (loading) return <p>Loading ...</p>;
-  if (error) return <p>Error</p>;
-
-  const name = `${data.me.firstName} ${data.me.lastName}`;
-
   return (
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
       <SimpleGrid
         mb='20px'
-        columns={{ sm: 1, lg: 2 }}
+        columns={{ base: 1, sm: 1, md: 1, lg: 4, xl: 4 }}
         spacing={{ base: "20px", xl: "20px" }}>
-        {/* Column Left */}
-        <Flex direction='column'>
-          <Profile name={name} avatar={profile} banner={banner} />
-          <Info />
-        </Flex>
-        {/* Column Right */}
-        <Flex direction='column'>
-          <Socials />
-          <Password />
-        </Flex>
+        {/* Components */}
+        <Profile avatar={profile} banner={banner} />
+        <Info />
+        <Socials />
+        <Password />
       </SimpleGrid>
     </Box>
   );
