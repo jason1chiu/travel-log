@@ -188,7 +188,7 @@ export default function SignUp() {
               variant='auth'
               fontSize='sm'
               type='username'
-              placeholder='travel_addict'
+              placeholder='Username'
               mb='24px'
               size='lg'
               value={username}

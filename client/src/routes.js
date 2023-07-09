@@ -1,14 +1,13 @@
 import React from "react";
+
 import { Icon } from "@chakra-ui/react";
-import {
-  MdHome,
-  MdSettings,
-} from "react-icons/md";
+
+import { MdHome, MdSettings } from "react-icons/md";
 
 import Overview from "views/admin/overview";
 import SignIn from "views/auth/signIn/SignInCentered";
 import SignUp from "views/auth/signUp/SignUpCentered";
-import Settings from "views/admin/settings";
+import AccountSettings from "views/admin/settings/account/index"
 
 const routes = [
   {
@@ -31,11 +30,18 @@ const routes = [
     component: SignUp,
   },
   {
-    name: "Settings",
+    name: "Profile Settings",
     layout: "/admin",
-    path: "/settings",
+    path: "/profile-settings",
     icon: <Icon as={MdSettings} width='20px' height='20px' color='inherit' />,
-    component: Settings,
+    component: AccountSettings,
+  },
+  {
+    name: "Account Settings",
+    layout: "/admin",
+    path: "/account-settings",
+    icon: <Icon as={MdSettings} width='20px' height='20px' color='inherit' />,
+    component: AccountSettings,
   }
 ];
 
