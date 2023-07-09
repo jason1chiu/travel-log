@@ -24,6 +24,7 @@ export default function Overview() {
   if (error) return <p>Error</p>;
 
   const name = `${data.me.firstName} ${data.me.lastName}`;
+  const username = `${data.me.username}`
 
   return (
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
@@ -42,7 +43,7 @@ export default function Overview() {
           banner={banner}
           avatar={avatar}
           name={name}
-          job='Product Designer'
+          username={username}
           posts='17'
           followers='9.7k'
           following='274'

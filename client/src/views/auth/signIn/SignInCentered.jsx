@@ -52,7 +52,7 @@ export default function SignIn() {
   const [show, setShow] = React.useState(false);
   const handleClick = () => setShow(!show);
 
-  const [loginUser, { data, loading, error }] = useMutation(LOGIN_USER);
+  const [loginUser, { loading, error }] = useMutation(LOGIN_USER);
 
   const toast = useToast();
 
@@ -60,6 +60,9 @@ export default function SignIn() {
 
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+
+  if (loading) return <p>Loading ...</p>;
+  if (error) return <p>Error</p>;
 
   const handleSignIn = async (event) => {
     event.preventDefault();
@@ -89,7 +92,7 @@ export default function SignIn() {
 
       toast({
         title: "An error occurred.",
-        description: "Incorrect creditials.",
+        description: "Incorrect credentials.",
         status: "error",
         duration: 9000,
         isClosable: true,

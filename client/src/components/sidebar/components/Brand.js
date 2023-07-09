@@ -9,8 +9,8 @@ export function SidebarBrand() {
 
   return (
     <Flex align='center' direction='column'>
-      <Text align='center' color={textColor} fontSize='2xl' ms='24px' fontWeight='700'>
-        TinySquares
+      <Text align='center' color={textColor} fontSize='2xl' fontWeight='700'>
+        Travel Log
       </Text>
       <HSeparator mb='20px' mt='20px' />
     </Flex>

@@ -54,10 +54,12 @@ export default function SignUp() {
   const handleClick = () => setShow(!show);
 
   // Define state variables for form inputs
+  const [username, setUsername] = React.useState('');
   const [firstName, setFirstName] = React.useState('');
   const [lastName, setLastName] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [location, setLocation] = React.useState('');
 
   // Define the mutation
   const [addUser, { data }] = useMutation(ADD_USER);
@@ -75,10 +77,12 @@ export default function SignUp() {
     try {
       const { data } = await addUser({
         variables: {
+          username: username,
           firstName: firstName,
-          lastName:  lastName,
+          lastName: lastName,
           email: email,
           password: password,
+          location: location,
         },
       });
 
@@ -170,6 +174,26 @@ export default function SignUp() {
             <HSeparator />
           </Flex>
           <FormControl>
+            <FormLabel
+              display='flex'
+              ms='4px'
+              fontSize='sm'
+              fontWeight='500'
+              color={textColor}
+              mb='8px'>
+              Username<Text color={brandStars}>*</Text>
+            </FormLabel>
+            <Input
+              isRequired={true}
+              variant='auth'
+              fontSize='sm'
+              type='username'
+              placeholder='travel_addict'
+              mb='24px'
+              size='lg'
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
             <SimpleGrid
               columns={{ base: "1", md: "2" }}
               gap={{ sm: "10px", md: "26px" }}>
@@ -268,6 +292,26 @@ export default function SignUp() {
                 />
               </InputRightElement>
             </InputGroup>
+            <FormLabel
+              display='flex'
+              ms='4px'
+              fontSize='sm'
+              fontWeight='500'
+              color={textColor}
+              mb='8px'>
+              Location<Text color={brandStars}>*</Text>
+            </FormLabel>
+            <Input
+              isRequired={true}
+              variant='auth'
+              fontSize='sm'
+              type='location'
+              placeholder='New York'
+              mb='24px'
+              size='lg'
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+            />
             <Flex justifyContent='space-between' align='center' mb='24px'>
               <FormControl display='flex' alignItems='start'>
                 <Checkbox
