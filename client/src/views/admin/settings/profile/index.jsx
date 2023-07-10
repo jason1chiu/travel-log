@@ -4,13 +4,11 @@ import { Box, SimpleGrid } from "@chakra-ui/react";
 import banner from "assets/img/auth/banner.png";
 import profile from "assets/img/crm/vbz.png";
 import React from "react";
+
 // Custom components
-import Info from "views/admin/settings/components/Info";
-import Password from "views/admin/settings/components/Password";
-import Profile from "views/admin/settings/components/Profile";
-import Socials from "views/admin/settings/components/Socials";
-import Upload from "views/admin/settings/components/Upload";
-import Delete from "views/admin/settings/components/Delete"
+import Profile from "views/admin/settings/profile/components/Profile";
+import Socials from "views/admin/settings/profile/components/Socials";
+import Upload from "views/admin/settings/profile/components/Upload";
 
 export default function Settings() {
 
@@ -22,11 +20,8 @@ export default function Settings() {
         spacing={{ base: "20px", xl: "20px" }}>
         {/* Components */}
         <Profile avatar={profile} banner={banner} />
-        <Info />
-        <Password />
         <Upload />
         <Socials />
-        <Delete />
       </SimpleGrid>
     </Box>
   );
