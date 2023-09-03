@@ -2,7 +2,7 @@ import { GET_ME } from "utils/queries";
 import { useQuery } from "@apollo/client";
 import { useState, useEffect } from "react";
 import { useMutation } from "@apollo/client";
-import { UPDATE_USER_INFO } from "utils/mutations";
+import { UPDATE_USER_ACCOUNT } from "utils/mutations";
 import { useHistory } from "react-router-dom";
 
 // Chakra imports
@@ -29,7 +29,7 @@ export default function Settings() {
   const history = useHistory();
 
   const { data, loading, error, refetch } = useQuery(GET_ME);
-  const [updateUser] = useMutation(UPDATE_USER_INFO, {
+  const [updateUser] = useMutation(UPDATE_USER_ACCOUNT, {
     onCompleted: () => {
       refetch();
     }

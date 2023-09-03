@@ -32,9 +32,9 @@ export const ADD_USER = gql`
   }
 `;
 
-export const UPDATE_USER_INFO = gql`
-  mutation UpdateUserInfo($username: String, $firstName: String, $lastName: String, $email: String, $location: String) {
-    updateUserInfo(username: $username, firstName: $firstName, lastName: $lastName, email: $email, location: $location) {
+export const UPDATE_USER_ACCOUNT = gql`
+  mutation UpdateUserAccount($username: String, $firstName: String, $lastName: String, $email: String, $location: String) {
+    updateUserAccount(username: $username, firstName: $firstName, lastName: $lastName, email: $email, location: $location) {
       _id
       username
       firstName

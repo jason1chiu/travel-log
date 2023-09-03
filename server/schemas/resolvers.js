@@ -23,7 +23,7 @@ const resolvers = {
       return { token, user };
     },
 
-    updateUserInfo: async (parent, { username, firstName, lastName, email, location }, context) => {
+    updateUserAccount: async (parent, { username, firstName, lastName, email, location }, context) => {
       if (context.user) {
         const updatedUser = await User.findOneAndUpdate(
           { _id: context.user._id },
